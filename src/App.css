@@ -1,42 +1,78 @@
-#root {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
-  text-align: center;
-}
+@import url('https://fonts.googleapis.com/css?family=Noto%20Sans%20Lao%20Looped:700|Noto%20Sans%20Lao%20Looped:400');
 
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
-}
-
-@keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
+/* @media (prefers-color-scheme: light) {
+  :root {
+    --text: #070708;
+    --background: #f5f9fa;
+    --primary: #469ec3;
+    --secondary: #8cd0ed;
+    --accent: #45c5fc;
   }
 }
-
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
+@media (prefers-color-scheme: dark) {
+  :root {
+    --text: #f7f7f8;
+    --background: #05090a;
+    --primary: #3c93b9;
+    --secondary: #125673;
+    --accent: #0383ba;
   }
+} */
+
+[data-theme='light'] {
+  --text: #070708;
+  --background: #f5f9fa;
+  --primary: #469ec3;
+  --secondary: #8cd0ed;
+  --accent: #45c5fc;
+}
+[data-theme='dark'] {
+  --text: #f7f7f8;
+  --background: #05090a;
+  --primary: #3c93b9;
+  --secondary: #125673;
+  --accent: #0383ba;
 }
 
-.card {
-  padding: 2em;
+body {
+  background-color: var(--background);
+  font-family: 'Noto Sans Lao Looped';
+  font-weight: 400;
 }
 
-.read-the-docs {
-  color: #888;
+h1,
+h2,
+h3,
+h4,
+h5 {
+  font-family: 'Noto Sans Lao Looped';
+  font-weight: 700;
+}
+
+html {
+  font-size: 100%;
+} /* 16px */
+
+h1 {
+  font-size: 4.21rem; /* 67.36px */
+}
+
+h2 {
+  font-size: 3.158rem; /* 50.56px */
+}
+
+h3 {
+  font-size: 2.369rem; /* 37.92px */
+}
+
+h4 {
+  font-size: 1.777rem; /* 28.48px */
+}
+
+h5 {
+  font-size: 1.333rem; /* 21.28px */
+}
+
+small {
+  font-size: 0.75rem; /* 12px */
 }

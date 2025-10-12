@@ -3,10 +3,6 @@ import styles from './Home.module.css';
 import styled from 'styled-components';
 import ClickerIcon from '../assets/logo.svg?react';
 
-const StyledClickerIcon = styled.img`
-  height: 10rem;
-`;
-
 function Home() {
   const [codePoints, setCodePoints] = useState(0); //Currency
   const [perClick, setPerClick] = useState(1); //Per click

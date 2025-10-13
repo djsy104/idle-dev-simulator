@@ -17,10 +17,13 @@ function Home() {
 
   return (
     <>
-      <div className={styles.clickerContainer}>
+      <section className={styles.clickerContainer}>
         <ClickerIcon className="logo" onClick={handleClick} />
         {codePoints}
-      </div>
+      </section>
+      <section className={styles.upgradesContainer}>
+        <div className={styles.upgradesGridContainer}></div>
+      </section>
     </>
   );
 }

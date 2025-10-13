@@ -7,3 +7,7 @@
 .ClickerIcon {
   cursor: pointer;
 }
+
+.upgradeContainer {
+  display: flex;
+}

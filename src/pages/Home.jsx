@@ -1,6 +1,7 @@
 import { useState, useCallback, useEffect } from 'react';
 import styles from './Home.module.css';
 import styled from 'styled-components';
+import useTheme from '../shared/Theme/useTheme';
 import ClickerIcon from '../assets/logo.svg?react';
 
 function Home() {
@@ -8,6 +9,7 @@ function Home() {
   const [perClick, setPerClick] = useState(1); //Per click
   const [passivePointGain, setPassivePointGain] = useState(0); //Passive point gain per second
   const [upgrades, setUpgrades] = useState([]);
+  const { theme } = useTheme();
 
   // Only re-renders when perClick is updated
   // If you didn't useCallback, it would re-render everytime codePoints updated
@@ -16,15 +18,20 @@ function Home() {
   }, [perClick]);
 
   return (
-    <>
+    <main>
       <section className={styles.clickerContainer}>
-        <ClickerIcon className="logo" onClick={handleClick} />
-        {codePoints}
+        <ClickerIcon className={styles.clickerIcon} onClick={handleClick} />
+        <h3 className={styles.codePointsText}>{codePoints}</h3>
       </section>
       <section className={styles.upgradesContainer}>
-        <div className={styles.upgradesGridContainer}></div>
+        <div className={styles.upgradesGridContainer}>
+          <div className={styles.card}></div>
+          <div className={styles.card}></div>
+          <div className={styles.card}></div>
+          <div className={styles.card}></div>
+        </div>
       </section>
-    </>
+    </main>
   );
 }
 

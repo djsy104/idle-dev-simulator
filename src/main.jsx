@@ -4,13 +4,16 @@ import { BrowserRouter } from 'react-router';
 import './index.css';
 import App from './App.jsx';
 import ThemeProvider from './shared/Theme/ThemeProvider.jsx';
+import SoundProvider from './shared/Sounds/SoundProvider.jsx';
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
     <ThemeProvider>
-      <BrowserRouter>
-        <App />
-      </BrowserRouter>
+      <SoundProvider>
+        <BrowserRouter>
+          <App />
+        </BrowserRouter>
+      </SoundProvider>
     </ThemeProvider>
   </StrictMode>
 );

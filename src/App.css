@@ -1,23 +1,17 @@
 @import url('https://fonts.googleapis.com/css?family=Noto%20Sans%20Lao%20Looped:700|Noto%20Sans%20Lao%20Looped:400');
 
-/* @media (prefers-color-scheme: light) {
-  :root {
-    --text: #070708;
-    --background: #f5f9fa;
-    --primary: #469ec3;
-    --secondary: #8cd0ed;
-    --accent: #45c5fc;
-  }
+:root {
+  --speed-dial-primary-color: rgba(
+    255,
+    255,
+    255,
+    0.95
+  ); /* background color for the panel and fab (floating action button) */
+  /* --accent: var(--primary); */
+  --speed-dial-panel-width: 3.5rem; /* width of the vertical expansion panel */
+  --speed-dial-fab-size: clamp(3rem, 7vw, 3.5rem); /* size of the fab */
+  --speed-dial-border-radius: 2rem; /* corner rounding of the panel */
 }
-@media (prefers-color-scheme: dark) {
-  :root {
-    --text: #f7f7f8;
-    --background: #05090a;
-    --primary: #3c93b9;
-    --secondary: #125673;
-    --accent: #0383ba;
-  }
-} */
 
 html,
 body,
@@ -28,13 +22,24 @@ body,
   padding: 0;
 }
 
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
 [data-theme='light'] {
   --text: #070708;
   --background: #f5f9fa;
   --primary: #469ec3;
   --secondary: #8cd0ed;
   --accent: #45c5fc;
+
+  --primary5: hsl(198, 51%, 52%, 5%);
+  --secondary2: hsl(198, 73%, 74%, 20%);
+  --secondary3: hsl(198, 73%, 74%, 30%);
 }
+
 [data-theme='dark'] {
   --text: #f7f7f8;
   --background: #05090a;
@@ -84,4 +89,10 @@ h5 {
 
 small {
   font-size: 0.75rem; /* 12px */
+}
+
+ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
 }

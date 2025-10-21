@@ -25,6 +25,7 @@ hr {
   flex-direction: column;
   justify-content: flex-start;
   align-items: flex-start;
+  gap: 3rem;
   padding: 0;
 }
 
@@ -36,10 +37,14 @@ hr {
   grid-row-gap: 0.5rem;
 }
 
+.sidebar hr {
+  width: 100%;
+}
+
 .navigationLink {
   text-decoration: none;
   color: inherit;
-  padding: 0.1rem;
+  padding: 0.5rem;
   border-radius: 0.2rem;
 }
 
@@ -72,3 +77,51 @@ hr {
   padding: 1rem;
   border-radius: 0.25rem;
 }
+
+.audioContainer {
+  background-color: var(--primary5);
+  width: 70%;
+  height: auto;
+  padding: 1rem;
+  border-radius: 0.25rem;
+}
+
+.audioContainer input[type='range'] {
+  width: 100%;
+  height: 1rem;
+  cursor: pointer;
+  padding-bottom: 1rem;
+}
+
+/* .radioContainer > div {
+  position: relative;
+  padding: 1rem 0;
+  display: flex;
+  align-items: center;
+}
+
+.check {
+  position: absolute;
+  top: 50%;
+  left: 20px;
+  transform: translateY(-50%);
+  height: 25px;
+  width: 25px;
+  border-radius: 50%;
+  border: 5px solid #aaaaaa;
+  transition: border 0.25s linear;
+}
+
+.radioLabels {
+  cursor: pointer;
+  color: var(--text2);
+}
+
+.radioLabels:hover {
+  color: var(--text);
+}
+
+.radioButton {
+  position: absolute;
+  visibility: hidden;
+} */

@@ -24,6 +24,7 @@ body,
 
 [data-theme='light'] {
   --text: #070708;
+  --text2: #434345;
   --background: #f5f9fa;
   --primary: #469ec3;
   --primary5: hsl(198, 51%, 52%, 5%);

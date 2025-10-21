@@ -1,0 +1,122 @@
+.wrapper {
+  position: fixed;
+  top: 1.5rem;
+  right: 1rem;
+  z-index: 1000;
+}
+
+.panel {
+  position: relative;
+  width: var(--speed-dial-panel-width);
+  background: var(--speed-dial-primary-color);
+  border-radius: var(--speed-dial-border-radius);
+  overflow: hidden;
+  transform-origin: top center;
+  transform: scaleY(0);
+  opacity: 0;
+  transition:
+    transform 0.25s ease,
+    opacity 0.2s ease;
+  filter: drop-shadow(0 10px 18px rgba(0, 0, 0, 0.18));
+  margin-top: 0;
+}
+
+.panel.open {
+  transform: scaleY(1);
+  opacity: 1;
+}
+
+.list {
+  list-style: none;
+  margin: 0;
+  padding: calc(var(--speed-dial-fab-size) * 1.1) 0 0.75rem; /*Controls how far down the panel is below the button*/
+  display: grid;
+  gap: 1rem;
+  place-items: center;
+}
+
+.item {
+  width: 2.25rem;
+  height: 2.25rem;
+  border-radius: 9999px;
+  display: grid;
+  place-items: center;
+  text-decoration: none;
+  background: transparent;
+  border: none;
+  transition: transform 0.1s ease-in;
+}
+
+.icon {
+  font-size: 30px;
+}
+
+.item:hover:not(.active) {
+  transform: scale(1.15);
+}
+
+.inactive {
+  color: var(--accent);
+}
+
+.active {
+  color: var(--secondary);
+  transition: none;
+  transform: scale(1);
+}
+
+/* menu button */
+.fab {
+  position: absolute;
+  top: 1rem;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: var(--speed-dial-fab-size);
+  height: var(--speed-dial-fab-size);
+  border-radius: 9999px;
+  display: grid;
+  place-items: center;
+  background: var(--speed-dial-primary-color);
+  border: none;
+  cursor: pointer;
+  box-shadow:
+    0 8px 12px rgba(0, 0, 0, 0.12),
+    0 16px 32px rgba(0, 0, 0, 0.12);
+}
+
+/* three bars inside menu button */
+.bar {
+  position: absolute;
+  left: 50%;
+  width: 50%;
+  height: 2px;
+  background: var(--accent);
+  border-radius: 2px;
+  transform: translateX(-50%);
+  transition:
+    transform 0.25s ease,
+    opacity 0.2s ease,
+    top 0.25s ease;
+}
+.bar:nth-child(1) {
+  top: 38%;
+}
+.bar:nth-child(2) {
+  top: 50%;
+}
+.bar:nth-child(3) {
+  top: 62%;
+}
+
+/* morph burger menu to X */
+.fab.open .bar:nth-child(1) {
+  top: 50%;
+  transform: translateX(-50%) rotate(45deg);
+}
+.fab.open .bar:nth-child(2) {
+  opacity: 0;
+}
+.fab.open .bar:nth-child(3) {
+  top: 50%;
+  transform: translateX(-50%) rotate(-45deg);
+}

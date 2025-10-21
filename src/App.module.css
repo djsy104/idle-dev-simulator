@@ -1,8 +1,16 @@
-.container {
+.appContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  justify-content: flex-start;
+  width: 100%;
+  margin: 0 auto;
+  min-height: 100vh;
+}
+
+.homeContainer {
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 100%;
-  margin: 0 auto;
   min-height: 70vh;
 }

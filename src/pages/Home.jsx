@@ -3,6 +3,7 @@ import styles from './Home.module.css';
 import styled from 'styled-components';
 import useTheme from '../shared/Theme/useTheme';
 import useSound from '../shared/Sounds/useSound';
+import NavMenu from '../shared/NavigationMenu/NavMenu';
 import ClickerIcon from '../assets/logo.svg?react';
 
 function Home() {
@@ -26,8 +27,14 @@ function Home() {
 
   return (
     <main>
+      <NavMenu />
+
       <section className={styles.clickerContainer}>
-        <ClickerIcon className={styles.clickerIcon} onClick={handleClick} />
+        <ClickerIcon
+          className={styles.clickerIcon}
+          onClick={handleClick}
+          alt="HTML logo"
+        />
         <h3 className={styles.codePointsText}>{codePoints}</h3>
       </section>
       <section className={styles.upgradesContainer}>

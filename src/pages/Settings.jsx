@@ -1,0 +1,127 @@
+import { useContext } from 'react';
+import { SoundContext } from '../shared/Sounds/SoundProvider';
+import useTheme from '../shared/Theme/useTheme';
+import NavMenu from '../shared/NavigationMenu/NavMenu';
+import styles from './Settings.module.css';
+import music from "../assets/You're my little flower.mp3";
+
+function Settings() {
+  const { theme, setTheme } = useTheme();
+  const {
+    muted,
+    setMuted,
+    volume,
+    setVolume,
+    musicVolume,
+    setMusicVolume,
+    sfxVolume,
+    setSfxVolume,
+  } = useContext(SoundContext);
+
+  function handleThemeChange(event) {
+    setTheme(event.target.value);
+  }
+
+  return (
+    <div className={styles.settingsContainer}>
+      <NavMenu />
+      <div className={styles.header}>
+        <h4 className={styles.title}>Settings</h4>
+        <hr />
+      </div>
+      <aside className={styles.sidebar}>
+        <a href="#display" className={styles.navigationLink}>
+          Display
+        </a>
+        <a href="#audio" className={styles.navigationLink}>
+          Audio
+        </a>
+        <a href="#gameplay" className={styles.navigationLink}>
+          Gameplay
+        </a>
+      </aside>
+      <main className={styles.mainContainer}>
+        <section id="display" className={styles.displayContainer}>
+          <h5>Display</h5>
+          <p>Adjust the color of the interface for better visibility.</p>
+          <hr />
+          <form className={styles.radioContainer}>
+            <div>
+              <input
+                type="radio"
+                id="lightMode"
+                name="theme"
+                className={styles.radioButton}
+                checked={theme === 'light'}
+                value="light"
+                onChange={(e) => handleThemeChange(e)}
+              />
+              <label htmlFor="lightMode" className={styles.radioLabels}>
+                Light
+              </label>
+              <div className={styles.check}></div>
+            </div>
+            <div>
+              <input
+                type="radio"
+                id="darkMode"
+                name="theme"
+                className={styles.radioButton}
+                checked={theme === 'dark'}
+                value="dark"
+                onChange={(e) => handleThemeChange(e)}
+              />
+              <label htmlFor="darkMode" className={styles.radioLabels}>
+                Dark
+              </label>
+              <div className={styles.check}></div>
+            </div>
+          </form>
+        </section>
+
+        <section id="audio" className={styles.audioContainer}>
+          <h5>Audio</h5>
+          <p>Adjust the audio settings to fit your preferences.</p>
+          <hr />
+          <form>
+            <label className={styles.audioLabels}>Master Volume</label>
+            <input
+              type="range"
+              min="0"
+              max="1"
+              step="0.01"
+              value={volume}
+              onChange={(e) => setVolume(parseFloat(e.target.value))}
+            />
+            <label className={styles.audioLabels}>Music Volume</label>
+            <input
+              type="range"
+              min="0"
+              max="1"
+              step="0.01"
+              value={musicVolume}
+              onChange={(e) => setMusicVolume(parseFloat(e.target.value))}
+            />
+            <label className={styles.audioLabels}>SFX Volume</label>
+            <input
+              type="range"
+              min="0"
+              max="1"
+              step="0.01"
+              value={sfxVolume}
+              onChange={(e) => setSfxVolume(parseFloat(e.target.value))}
+            />
+          </form>
+        </section>
+
+        <section id="gameplay" className={styles.gameContainer}>
+          <h5>Display</h5>
+          <p>Adjust the color of the interface for better visibility.</p>
+          <hr />
+        </section>
+      </main>
+    </div>
+  );
+}
+
+export default Settings;

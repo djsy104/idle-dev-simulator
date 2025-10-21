@@ -1,4 +1,4 @@
-import { Howler } from 'howler';
+import { Howler, Howl } from 'howler';
 import { createContext, useEffect, useState, useMemo, useRef } from 'react';
 
 const STORAGE_KEY = 'idledev.sound';
@@ -62,12 +62,14 @@ function SoundProvider({ children }) {
   }
 
   function playMusic(src) {
-    if (musicRef.current) return; // music already playing
-    musicRef.current = new Howl({
-      src: Array.isArray(src) ? src : [src],
-      loop: true,
-      volume: limitToUnitRange(musicVolume * volume),
-    });
+    if (musicRef.current && musicRef.current.playing()) return; // music already playing
+    musicRef.current =
+      musicRef.current ??
+      new Howl({
+        src: src,
+        loop: true,
+        volume: limitToUnitRange(musicVolume * volume),
+      });
     musicRef.current.play();
   }
 

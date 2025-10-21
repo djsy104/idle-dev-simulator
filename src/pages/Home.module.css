@@ -5,31 +5,6 @@ main {
   width: 100%;
 }
 
-.clickerContainer {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  margin-bottom: 2rem;
-}
-
-.clickerIcon {
-  cursor: pointer;
-  color: var(--text);
-  display: block;
-  /* width: min(40vw, 20rem); */
-  width: 20%;
-  height: auto;
-  max-width: 100%;
-  overflow: visible;
-}
-
-.codePointsText {
-  color: var(--text);
-  padding: 0;
-  margin: 0;
-}
-
 .upgradesContainer {
   border-top: 1px solid black;
   display: flex;
@@ -45,6 +20,11 @@ main {
 }
 
 .card {
-  background-color: black;
+  background-color: var(--secondary);
   height: 10rem;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  transition:
+    transform 0.1s ease,
+    background-color 0.2s ease;
 }

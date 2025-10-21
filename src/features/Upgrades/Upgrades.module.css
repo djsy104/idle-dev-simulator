@@ -1,0 +1,6 @@
+.upgradesContainer {
+  display: flex;
+  justify-content: space-evenly;
+  gap: 2rem;
+  padding: 1rem;
+}

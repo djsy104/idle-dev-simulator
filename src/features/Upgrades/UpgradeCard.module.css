@@ -1,0 +1,49 @@
+.upgradeCard {
+  flex: 0 0 16rem;
+  padding: 2rem;
+  background-image: linear-gradient(to bottom left, #e0e4e5, #f2f6f9);
+  border-radius: 2rem;
+  gap: 1.5rem;
+  display: grid;
+  grid-template: 'title icon' 'content content' 'bar bar' / 1fr auto;
+  font-family: system-ui, sans-serif;
+  color: var(--text);
+  box-shadow:
+    inset -2px 2px hsl(0 0 100% / 1),
+    -20px 20px 40px hsl(0 0 0 / 0.25);
+}
+
+.upgradeCardTitle {
+  grid-area: title;
+  font-size: 1rem;
+  text-transform: uppercase;
+  font-weight: 500;
+  align-self: end;
+  word-break: break-word;
+}
+
+.upgradeCardDescription {
+  grid-area: content;
+  & > *:first-child {
+    margin-top: 0rem;
+  }
+  & > *:last-child {
+    margin-bottom: 0rem;
+  }
+}
+
+.upgradeCardIcon {
+  width: clamp(2rem, 3rem);
+  aspect-ratio: 1 / 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--primary);
+  padding: 0.25rem;
+}
+
+.upgradeCardIcon svg {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}

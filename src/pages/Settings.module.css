@@ -1,13 +1,5 @@
-/* .title {
-  position: absolute;
-  left: 1rem;
-  top: 1rem;
-  margin: 0;
-} */
-
 .header {
   grid-area: header;
-  border-bottom: 1px black solid;
   grid-column: 1 / -1;
   width: 100%;
 }
@@ -18,19 +10,41 @@ p {
   padding: 0;
 }
 
-p {
-  padding-bottom: 1rem;
+h5 {
+  margin: 0;
+  padding: 0;
 }
 
-.main {
+hr {
+  padding: 0;
+}
+
+.mainContainer {
   grid-area: main;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  padding: 0;
 }
 
 .sidebar {
   grid-area: sidebar;
   display: grid;
-  /* grid-template-columns: auto;
-  grid-template-rows: 10vw 1fr; */
+  width: 100%;
+  grid-template-columns: 1fr;
+  grid-row-gap: 0.5rem;
+}
+
+.navigationLink {
+  text-decoration: none;
+  color: inherit;
+  padding: 0.1rem;
+  border-radius: 0.2rem;
+}
+
+.navigationLink:hover {
+  background-color: var(--secondary2);
 }
 
 .settingsContainer {
@@ -39,7 +53,7 @@ p {
   max-width: 100%;
   padding: 1.5rem;
   display: grid;
-  grid-template-columns: clamp(12.5rem, 22vw, 17.5rem) minmax(0, 1fr);
+  grid-template-columns: clamp(6rem, 12vw, 10rem) minmax(0, 1fr);
   grid-template-areas:
     'header header'
     'sidebar main';
@@ -49,4 +63,12 @@ p {
   flex: 1 1 auto;
   gap: 1.25rem 2rem;
   overflow-x: hidden;
+}
+
+.displayContainer {
+  background-color: var(--primary5);
+  width: 70%;
+  height: auto;
+  padding: 1rem;
+  border-radius: 0.25rem;
 }

@@ -1,9 +1,9 @@
 import { useEffect, useContext, useMemo, useRef } from 'react';
-import { Howl } from 'howler';
+import { Howl, Howler } from 'howler';
 import { SFX_CONFIG } from './sfxConfig';
 import { SoundContext } from './SoundProvider';
 
-//Custom hook to manage and play sound effects
+// Custom hook to manage and play sound effects
 function useSound() {
   const currentContext = useContext(SoundContext);
   if (!currentContext) {
@@ -12,7 +12,7 @@ function useSound() {
 
   const { muted, volume } = currentContext;
 
-  // Rebuild when any source URL changes (handles HMR)
+  // Build a signature of the SFX config so we can rebuild on HMR or config edits
   const configSignature = useMemo(() => {
     return Object.entries(SFX_CONFIG)
       .map(([k, cfg]) => {
@@ -21,7 +21,7 @@ function useSound() {
       })
       .sort()
       .join('|');
-  }, []);
+  }, [SFX_CONFIG]);
 
   const soundsRef = useRef(new Map());
 

@@ -12,9 +12,7 @@ export function loadGameState() {
 export function saveGameState(state) {
   try {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
-  } catch {
-    // ignore quota errors for now
-  }
+  } catch {}
 }
 
 export function clearGameState() {

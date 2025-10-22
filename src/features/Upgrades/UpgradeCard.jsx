@@ -1,3 +1,4 @@
+import { memo } from 'react';
 import styles from './UpgradeCard.module.css';
 
 function UpgradeCard({ title, description, icon, cost, canAfford, onBuy }) {
@@ -20,7 +21,6 @@ function UpgradeCard({ title, description, icon, cost, canAfford, onBuy }) {
         <p>{description}</p>
       </div>
 
-      {/* Gradient bar */}
       <div className={styles.upgradeCardBar}></div>
 
       {/* Cost and button */}
@@ -41,4 +41,4 @@ function UpgradeCard({ title, description, icon, cost, canAfford, onBuy }) {
   );
 }
 
-export default UpgradeCard;
+export default memo(UpgradeCard);

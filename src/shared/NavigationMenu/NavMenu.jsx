@@ -41,7 +41,7 @@ function NavMenu() {
 
           <li>
             <NavLink
-              to="/Achievements "
+              to="/Achievements"
               className={({ isActive }) =>
                 `${styles.item} ${isActive ? styles.active : styles.inactive}`
               }

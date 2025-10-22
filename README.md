@@ -1,16 +1,45 @@
-# React + Vite
+# Idle Dev Clicker
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Idle Dev Clicker is a browser-based **idle/incremental simulator** built with **React (Vite)**.  
+You play as a solo developer earning code, buying upgrades, and automating your workflow to reach peak productivity.
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Features
 
-## React Compiler
+- **Incremental gameplay** – Click to type code lines, spend it on upgrades that boost your output.
+- **Upgrade chains** – Sequential unlocks for Keyboard, Tabs, Monitors, and Tools, each with increasing cost and efficiency.
+- **Passive income** – Upgrades generate automatic progress even while idle.
+- **Persistent progress** – Game data is saved using `localStorage`.
+- **Clean, modular UI** – Fully built with functional React components.
+- **Audio feedback** – Game sounds powered by **Howler.js** for smooth cross-browser playback.
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+---
 
-## Expanding the ESLint configuration
+## Tech Stack
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+- **Frontend:** React + Vite
+- **Routing:** React Router
+- **Audio:** [Howler.js](https://howlerjs.com/)
+- **Persistence:** localStorage
+- **Styling:** Pure CSS (responsive layout)
+
+---
+
+## Installation & Running
+
+To run the project locally:
+
+```bash
+# Clone the repository
+git clone https://github.com/djsy104/idle-dev-simulator
+
+# Navigate into the folder
+cd idle-dev-clicker
+
+# Install dependencies
+npm install
+
+# Start the development server
+npm run dev
+```

@@ -15,6 +15,7 @@ function SoundProvider({ children }) {
   const [musicVolume, setMusicVolume] = useState(0.4);
   const [sfxVolume, setSfxVolume] = useState(0.5);
   const musicRef = useRef(null);
+  const wantMusicRef = useRef(false);
 
   useEffect(() => {
     if (typeof window === 'undefined') return;
@@ -42,6 +43,25 @@ function SoundProvider({ children }) {
   }, [muted, volume]);
 
   useEffect(() => {
+    const tryResume = () => {
+      if (!wantMusicRef.current) return;
+      try {
+        Howler?.ctx?.resume?.();
+      } catch {}
+      if (musicRef.current && !musicRef.current.playing()) {
+        musicRef.current.play();
+      }
+    };
+    window.addEventListener('pointerdown', tryResume);
+    document.addEventListener('visibilitychange', () => {
+      if (document.visibilityState === 'visible') tryResume();
+    });
+    return () => {
+      window.removeEventListener('pointerdown', tryResume);
+    };
+  }, []);
+
+  useEffect(() => {
     if (musicRef.current) {
       musicRef.current.volume(limitToUnitRange(musicVolume * volume));
     }
@@ -62,22 +82,35 @@ function SoundProvider({ children }) {
   }
 
   function playMusic(src) {
-    if (musicRef.current && musicRef.current.playing()) return; // music already playing
-    musicRef.current =
-      musicRef.current ??
-      new Howl({
-        src: src,
+    try {
+      Howler?.ctx?.resume?.();
+    } catch {}
+    wantMusicRef.current = true;
+    if (musicRef.current && musicRef.current.playing()) return; // already playing
+    if (!musicRef.current) {
+      musicRef.current = new Howl({
+        src,
         loop: true,
         volume: limitToUnitRange(musicVolume * volume),
       });
+    }
     musicRef.current.play();
   }
 
-  function stopMusic() {
+  function stopMusic(opts = {}) {
+    const { unload = false } = opts;
+    wantMusicRef.current = false;
     if (!musicRef.current) return;
-    musicRef.current.stop();
-    musicRef.current.unload();
-    musicRef.current = null;
+    try {
+      musicRef.current.stop();
+    } catch {}
+
+    if (unload) {
+      try {
+        musicRef.current.unload();
+      } catch {}
+      musicRef.current = null;
+    }
   }
 
   const value = useMemo(

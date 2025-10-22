@@ -1,11 +1,13 @@
 import { useContext } from 'react';
 import { SoundContext } from '../shared/Sounds/SoundProvider';
+import { clearGameState } from '../shared/Storage/gameState';
+import { useNavigate } from 'react-router';
 import useTheme from '../shared/Theme/useTheme';
 import NavMenu from '../shared/NavigationMenu/NavMenu';
 import styles from './Settings.module.css';
-import music from "../assets/You're my little flower.mp3";
 
 function Settings() {
+  const navigate = useNavigate();
   const { theme, setTheme } = useTheme();
   const {
     muted,
@@ -16,10 +18,26 @@ function Settings() {
     setMusicVolume,
     sfxVolume,
     setSfxVolume,
+    stopMusic,
   } = useContext(SoundContext);
 
   function handleThemeChange(event) {
     setTheme(event.target.value);
+  }
+
+  function handleResetGame() {
+    const confirmationPrompt = window.confirm(
+      'Reset all progress and upgrades? This cannot be undone.'
+    );
+    if (!confirmationPrompt) {
+      return;
+    }
+    try {
+      clearGameState();
+      stopMusic({ unload: true });
+    } catch {}
+    // Force Home to remount
+    navigate('/', { replace: true });
   }
 
   return (
@@ -115,9 +133,17 @@ function Settings() {
         </section>
 
         <section id="gameplay" className={styles.gameContainer}>
-          <h5>Display</h5>
-          <p>Adjust the color of the interface for better visibility.</p>
+          <h5>Gameplay</h5>
+          <p>Customize your gameplay experience.</p>
           <hr />
+          <button
+            type="button"
+            onClick={handleResetGame}
+            className={styles.resetButton}
+            aria-label="Reset all game progress"
+          >
+            Reset Game State
+          </button>
         </section>
       </main>
     </div>

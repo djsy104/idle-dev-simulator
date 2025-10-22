@@ -93,35 +93,22 @@ hr {
   padding-bottom: 1rem;
 }
 
-/* .radioContainer > div {
-  position: relative;
-  padding: 1rem 0;
-  display: flex;
-  align-items: center;
+.gameContainer {
+  background-color: var(--primary5);
+  width: 70%;
+  height: auto;
+  padding: 1rem;
+  border-radius: 0.25rem;
 }
 
-.check {
-  position: absolute;
-  top: 50%;
-  left: 20px;
-  transform: translateY(-50%);
-  height: 25px;
-  width: 25px;
-  border-radius: 50%;
-  border: 5px solid #aaaaaa;
-  transition: border 0.25s linear;
-}
-
-.radioLabels {
-  cursor: pointer;
-  color: var(--text2);
-}
-
-.radioLabels:hover {
+.resetButton {
+  padding: 0.5rem;
+  border-radius: 0.5rem;
+  border: 1px solid var(--primary);
+  background: var(--accent);
   color: var(--text);
+  cursor: pointer;
 }
-
-.radioButton {
-  position: absolute;
-  visibility: hidden;
-} */
+.resetButton:hover {
+  background: var(--primary);
+}

@@ -14,6 +14,8 @@ You play as a solo developer earning code, buying upgrades, and automating your 
 - **Clean, modular UI** – Fully built with functional React components.
 - **Audio feedback** – Game sounds powered by **Howler.js** for smooth cross-browser playback.
 
+NOTE: Howler.js directly manipulates the DOM
+
 ---
 
 ## Tech Stack

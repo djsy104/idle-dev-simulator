@@ -1,46 +1,64 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useMemo } from 'react';
 import { upgradeCatalog, UNLOCK_TYPE } from './upgradesCatalog';
+import { getCost } from './upgradesUtility';
 import UpgradeCard from './UpgradeCard';
 import styles from './Upgrades.module.css';
 
 function Upgrades({ codePoints, levels, onUpgrade }) {
-  const nextUpgrades = useMemo(() => {
-    const chains = {};
+  // Group upgrades by chain and sort each chain once
+  const groupedChains = useMemo(() => {
+    const byChain = new Map();
 
+    // Group upgrades by chain and sort each chain by order
     for (const upgrade of upgradeCatalog) {
-      if (!chains[upgrade.chain]) chains[upgrade.chain] = [];
-      chains[upgrade.chain].push(upgrade);
+      if (!byChain.has(upgrade.chain)) byChain.set(upgrade.chain, []);
+      byChain.get(upgrade.chain).push(upgrade);
     }
 
-    // Sort and pick next unlockable upgrade in each chain
-    return Object.entries(chains).map(([chain, list]) => {
-      const sorted = [...list].sort((a, b) => (a.order ?? 0) - (b.order ?? 0));
-      const next = sorted.find((u) => {
-        const level = levels[u.id] ?? 0;
+    // Ensure deterministic upgrade order inside each chain.
+    for (const list of byChain.values()) {
+      list.sort((a, b) => (a.order ?? 0) - (b.order ?? 0));
+    }
+    return byChain;
+  }, []);
+
+  // Find the next upgrade in each chain that can be unlocked
+  const nextUpgrades = useMemo(() => {
+    const results = [];
+    for (const [chain, list] of groupedChains.entries()) {
+      // Find first upgrade that is both unlocked and below max level.
+      const next = list.find((upgrade) => {
+        const level = levels[upgrade.id] ?? 0;
         const unlocked =
-          u.unlock.type === UNLOCK_TYPE.ALWAYS ||
-          levels[u.unlock.upgradeId] >= u.unlock.level;
-        return level < (u.maxLevel ?? 1) && unlocked;
+          upgrade.unlock?.type === UNLOCK_TYPE.ALWAYS ||
+          (upgrade.unlock &&
+            (levels[upgrade.unlock.upgradeId] ?? 0) >= upgrade.unlock.level);
+        const underCap = level < (upgrade.maxLevel ?? 1);
+        return unlocked && underCap;
       });
-      return { chain, next };
-    });
-  }, [levels]);
+      if (next) results.push({ chain, next });
+    }
+    return results;
+  }, [groupedChains, levels]);
 
   return (
     <div className={styles.upgradesContainer}>
-      {nextUpgrades
-        .filter(({ next }) => !!next)
-        .map(({ chain, next }) => (
+      {nextUpgrades.map(({ chain, next }) => {
+        const cost = getCost(next.id, levels);
+        const canAfford = codePoints >= cost;
+
+        return (
           <UpgradeCard
             key={chain}
             title={next.name}
             description={next.description}
             icon={next.icon}
-            cost={next.baseCost}
-            canAfford={codePoints >= next.baseCost}
+            cost={cost}
+            canAfford={canAfford}
             onBuy={() => onUpgrade(next)}
           />
-        ))}
+        );
+      })}
     </div>
   );
 }

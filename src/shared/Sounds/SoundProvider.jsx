@@ -1,10 +1,19 @@
 import { Howler, Howl } from 'howler';
-import { createContext, useEffect, useState, useMemo, useRef } from 'react';
+import {
+  createContext,
+  useEffect,
+  useState,
+  useMemo,
+  useRef,
+  useCallback,
+} from 'react';
+import musicTabTrack from "../../assets/You're my little flower.mp3";
 
 const STORAGE_KEY = 'idledev.sound';
 
 export const SoundContext = createContext();
 
+// Keeps value wwithin range of 0.0 to 1.0
 function limitToUnitRange(n) {
   return Math.min(1, Math.max(0, n));
 }
@@ -16,7 +25,9 @@ function SoundProvider({ children }) {
   const [sfxVolume, setSfxVolume] = useState(0.5);
   const musicRef = useRef(null);
   const wantMusicRef = useRef(false);
+  const MUSIC_SRC = [musicTabTrack];
 
+  // Load persisted settings once
   useEffect(() => {
     if (typeof window === 'undefined') return;
     try {
@@ -37,36 +48,7 @@ function SoundProvider({ children }) {
     } catch {}
   }, []);
 
-  useEffect(() => {
-    Howler.mute(muted);
-    Howler.volume(limitToUnitRange(volume));
-  }, [muted, volume]);
-
-  useEffect(() => {
-    const tryResume = () => {
-      if (!wantMusicRef.current) return;
-      try {
-        Howler?.ctx?.resume?.();
-      } catch {}
-      if (musicRef.current && !musicRef.current.playing()) {
-        musicRef.current.play();
-      }
-    };
-    window.addEventListener('pointerdown', tryResume);
-    document.addEventListener('visibilitychange', () => {
-      if (document.visibilityState === 'visible') tryResume();
-    });
-    return () => {
-      window.removeEventListener('pointerdown', tryResume);
-    };
-  }, []);
-
-  useEffect(() => {
-    if (musicRef.current) {
-      musicRef.current.volume(limitToUnitRange(musicVolume * volume));
-    }
-  }, [musicVolume, volume]);
-
+  // Keep changed settings
   useEffect(() => {
     if (typeof window === 'undefined') return;
     try {
@@ -77,41 +59,80 @@ function SoundProvider({ children }) {
     } catch {}
   }, [muted, volume, musicVolume, sfxVolume]);
 
+  // Apply global mute and master volume
+  useEffect(() => {
+    Howler.mute(muted);
+    Howler.volume(limitToUnitRange(volume));
+  }, [muted, volume]);
+
+  // Gesture unlock and tab visibility resume
+  useEffect(() => {
+    const tryResume = () => {
+      if (!wantMusicRef.current) return;
+      try {
+        Howler?.ctx?.resume?.();
+      } catch {}
+      if (musicRef.current && !musicRef.current.playing()) {
+        musicRef.current.play();
+      }
+    };
+
+    const onPointerDown = () => tryResume();
+    const onVisibility = () => {
+      if (document.visibilityState === 'visible') tryResume();
+    };
+
+    window.addEventListener('pointerdown', onPointerDown);
+    document.addEventListener('visibilitychange', onVisibility);
+
+    return () => {
+      window.removeEventListener('pointerdown', onPointerDown);
+      document.removeEventListener('visibilitychange', onVisibility);
+    };
+  }, []);
+
+  // Keep music howl volume in sync
+  useEffect(() => {
+    if (musicRef.current) {
+      musicRef.current.volume(limitToUnitRange(musicVolume * volume));
+    }
+  }, [musicVolume, volume]);
+
   function toggleMuted() {
     setMuted((prev) => !prev);
   }
 
-  function playMusic(src) {
+  // Play the music track; safe if called reaptedly
+  const playMusic = useCallback(() => {
     try {
       Howler?.ctx?.resume?.();
     } catch {}
     wantMusicRef.current = true;
-    if (musicRef.current && musicRef.current.playing()) return; // already playing
+
     if (!musicRef.current) {
       musicRef.current = new Howl({
-        src,
+        src: MUSIC_SRC,
         loop: true,
         volume: limitToUnitRange(musicVolume * volume),
       });
     }
-    musicRef.current.play();
-  }
+    if (!musicRef.current.playing()) {
+      musicRef.current.play();
+    }
+  }, [MUSIC_SRC, musicVolume, volume]);
 
-  function stopMusic(opts = {}) {
+  const stopMusic = useCallback((opts = {}) => {
     const { unload = false } = opts;
     wantMusicRef.current = false;
     if (!musicRef.current) return;
     try {
       musicRef.current.stop();
-    } catch {}
-
-    if (unload) {
-      try {
+      if (unload) {
         musicRef.current.unload();
-      } catch {}
-      musicRef.current = null;
-    }
-  }
+        musicRef.current = null;
+      }
+    } catch {}
+  }, []);
 
   const value = useMemo(
     () => ({
@@ -127,7 +148,7 @@ function SoundProvider({ children }) {
       playMusic,
       stopMusic,
     }),
-    [muted, volume, musicVolume, sfxVolume]
+    [muted, volume, musicVolume, sfxVolume, playMusic, stopMusic]
   );
 
   return (

@@ -1,5 +1,5 @@
 import { NavLink } from 'react-router';
-import { useState } from 'react';
+import { useState, useCallback } from 'react';
 import styles from './NavMenu.module.css';
 import HomeIcon from '../../assets/home.svg?react';
 import SettingsIcon from '../../assets/settings.svg?react';
@@ -7,20 +7,26 @@ import AchievementsIcon from '../../assets/trophy.svg?react';
 
 function NavMenu() {
   const [open, setOpen] = useState(false);
+  const linkClass = useCallback(
+    ({ isActive }) =>
+      `${styles.item} ${isActive ? styles.active : styles.inactive}`,
+    []
+  );
 
   return (
     <div className={styles.wrapper}>
       <nav
         className={`${styles.panel} ${open ? styles.open : ''}`}
         aria-hidden={!open}
+        id="main-menu"
+        aria-label="Main"
       >
         <ul className={styles.list}>
           <li>
             <NavLink
               to="/"
-              className={({ isActive }) =>
-                `${styles.item} ${isActive ? styles.active : styles.inactive}`
-              }
+              aria-label="Home"
+              className={linkClass}
               onClick={() => setOpen(false)}
             >
               <HomeIcon className={styles.icon} />
@@ -30,9 +36,8 @@ function NavMenu() {
           <li>
             <NavLink
               to="/Settings"
-              className={({ isActive }) =>
-                `${styles.item} ${isActive ? styles.active : styles.inactive}`
-              }
+              aria-label="Settings"
+              className={linkClass}
               onClick={() => setOpen(false)}
             >
               <SettingsIcon className={styles.icon} />
@@ -42,9 +47,8 @@ function NavMenu() {
           <li>
             <NavLink
               to="/Achievements"
-              className={({ isActive }) =>
-                `${styles.item} ${isActive ? styles.active : styles.inactive}`
-              }
+              aria-label="Achievements"
+              className={linkClass}
               onClick={() => setOpen(false)}
             >
               <AchievementsIcon className={styles.icon} />

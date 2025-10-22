@@ -9,18 +9,25 @@ import ClickerButton from '../features/ClickerButton';
 import musicTabTrack from "../assets/You're my little flower.mp3";
 import { upgradeCatalog } from '../features/Upgrades/upgradesCatalog';
 import { deriveStats, getCost } from '../features/Upgrades/upgradesUtility';
-import { Howler } from 'howler';
 import { SoundContext } from '../shared/Sounds/SoundProvider';
+import { loadGameState, saveGameState } from '../shared/Storage/gameState';
 
 const MUSIC_ID = 'lofi_music_tab';
 const MUSIC_SRC = [musicTabTrack];
 
 function Home() {
-  const initialLevels = Object.fromEntries(
-    upgradeCatalog.map((upgrade) => [upgrade.id, 0])
+  const defaultLevels = useMemo(
+    () => Object.fromEntries(upgradeCatalog.map((upgrade) => [upgrade.id, 0])),
+    []
   );
-  const [levels, setLevels] = useState(initialLevels);
-  const [codePoints, setCodePoints] = useState(0); // Currency
+  const [levels, setLevels] = useState(() => {
+    const saved = loadGameState();
+    return { ...defaultLevels, ...(saved?.levels || {}) };
+  });
+  const [codePoints, setCodePoints] = useState(() => {
+    const saved = loadGameState();
+    return saved?.codePoints ?? 0;
+  });
   const { theme } = useTheme();
   const { playClick, playUpgrade } = useSound();
   const { playMusic, stopMusic } = useContext(SoundContext);
@@ -32,10 +39,37 @@ function Home() {
   );
 
   useEffect(() => {
-    const unlocked = (levels[MUSIC_ID] ?? 0) >= 1;
-    console.log('bgm level:', levels[MUSIC_ID], 'unlocked:', unlocked);
-    if (unlocked) playMusic(MUSIC_SRC);
-    else stopMusic();
+    saveGameState({ levels, codePoints });
+  }, [levels, codePoints]);
+
+  useEffect(() => {
+    // Only set up if the music upgrade is owned
+    if ((levels[MUSIC_ID] ?? 0) < 1) return;
+
+    const startMusic = () => {
+      try {
+        Howler?.ctx?.resume?.();
+      } catch {}
+      playMusic(MUSIC_SRC);
+    };
+
+    window.addEventListener('pointerdown', startMusic, { once: true });
+
+    return () => {
+      window.removeEventListener('pointerdown', startMusic);
+    };
+  }, [levels, playMusic]);
+
+  useEffect(() => {
+    const owned = (levels[MUSIC_ID] ?? 0) >= 1;
+    if (owned) {
+      try {
+        Howler?.ctx?.resume?.();
+      } catch {}
+      playMusic(MUSIC_SRC);
+    } else {
+      stopMusic();
+    }
   }, [levels, playMusic, stopMusic]);
 
   // Passive point gain loop
@@ -59,10 +93,19 @@ function Home() {
     if (codePoints < cost) return;
 
     setCodePoints((prev) => prev - cost);
-    setLevels((prev) => ({
-      ...prev,
-      [upgrade.id]: (prev[upgrade.id] ?? 0) + 1,
-    }));
+    setLevels((prev) => {
+      const nextLevel = (prev[upgrade.id] ?? 0) + 1;
+      const next = { ...prev, [upgrade.id]: nextLevel };
+
+      if (upgrade.id === MUSIC_ID && nextLevel === 1) {
+        try {
+          Howler?.ctx?.resume?.();
+        } catch {}
+        playMusic(MUSIC_SRC);
+      }
+
+      return next;
+    });
     playUpgrade();
   }
 

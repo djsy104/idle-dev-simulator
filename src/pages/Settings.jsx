@@ -1,4 +1,4 @@
-import { useContext } from 'react';
+import { useContext, useState } from 'react';
 import { SoundContext } from '../shared/Sounds/SoundProvider';
 import { clearGameState } from '../shared/Storage/gameState';
 import { useNavigate } from 'react-router';
@@ -21,8 +21,20 @@ function Settings() {
     stopMusic,
   } = useContext(SoundContext);
 
+  // Validation for existing theme radios
+  const [displayTouched, setDisplayTouched] = useState(false);
+  const themeChosen = theme === 'light' || theme === 'dark';
+  const displayError = displayTouched && !themeChosen ? 'Select a theme.' : '';
+
   function handleThemeChange(event) {
     setTheme(event.target.value);
+  }
+
+  function handleDisplaySubmit(e) {
+    e.preventDefault();
+    setDisplayTouched(true);
+    const hasError = !(theme === 'light' || theme === 'dark');
+    if (hasError) return;
   }
 
   function handleResetGame() {
@@ -63,7 +75,11 @@ function Settings() {
           <h5>Display</h5>
           <p>Adjust the color of the interface for better visibility.</p>
           <hr />
-          <form className={styles.radioContainer}>
+          <form
+            className={styles.radioContainer}
+            onSubmit={handleDisplaySubmit}
+            noValidate
+          >
             <div>
               <input
                 type="radio"
@@ -72,7 +88,7 @@ function Settings() {
                 className={styles.radioButton}
                 checked={theme === 'light'}
                 value="light"
-                onChange={(e) => handleThemeChange(e)}
+                onChange={handleThemeChange}
               />
               <label htmlFor="lightMode" className={styles.radioLabels}>
                 Light
@@ -94,6 +110,19 @@ function Settings() {
               </label>
               <div className={styles.check}></div>
             </div>
+
+            {displayError && (
+              <div role="alert" className={styles.errorText}>
+                {displayError}
+              </div>
+            )}
+            <button
+              type="submit"
+              className={styles.saveButton}
+              disabled={!!displayError}
+            >
+              Save Display
+            </button>
           </form>
         </section>
 

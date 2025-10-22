@@ -32,6 +32,12 @@ body,
   --secondary2: hsl(198, 73%, 74%, 20%);
   --secondary3: hsl(198, 73%, 74%, 30%);
   --accent: #45c5fc;
+
+  --card-gradient1: #e0e4e5;
+  --card-gradient2: #f2f6f9;
+  --shadow-inset: hsl(0 0% 100% / 1);
+  --shadow-outer: hsl(0 0% 0% / 0.25);
+
   --speed-dial-primary-color: rgba(
     255,
     255,
@@ -49,6 +55,13 @@ body,
   --secondary2: hsl(198, 73%, 26%, 20%);
   --secondary3: hsl(198, 73%, 26%, 30%);
   --accent: #0383ba;
+
+  /*Upgrade Card Colors*/
+  --card-gradient1: #0a1012;
+  --card-gradient2: #0f181b;
+  --shadow-inset: hsl(198 20% 4% / 0.9);
+  --shadow-outer: hsla(0, 0%, 100%, 0.041);
+
   --speed-dial-primary-color: rgba(32, 33, 34, 0.95);
 }
 

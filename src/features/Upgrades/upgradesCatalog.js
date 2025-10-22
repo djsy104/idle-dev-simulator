@@ -10,13 +10,13 @@ export const EFFECT_STAT = {
 };
 
 export const EFFECT_OP = {
-  ADD: 'add',
-  MULTIPLY: 'multiply',
+  ADD: 'add', // Add to the stat directly
+  MULTIPLY: 'multiply', // Multiply the stat or a subtotal
 };
 
 export const UNLOCK_TYPE = {
-  ALWAYS: 'always',
-  UPGRADE_LEVEL: 'upgradeLevel',
+  ALWAYS: 'always', // Visible from the start
+  UPGRADE_LEVEL: 'upgradeLevel', // Visible after an upgrade reaches a certain level
 };
 
 export const upgradeCatalog = [
@@ -25,8 +25,8 @@ export const upgradeCatalog = [
     id: 'pre_owned_keyboard',
     name: 'Pre-owned Keyboard',
     description: 'Barely functional, but it types.',
-    baseCost: 10,
-    costGrowth: 1,
+    baseCost: 20,
+    costGrowth: 1.18,
     maxLevel: 1,
     effect: { stat: EFFECT_STAT.PER_CLICK, op: EFFECT_OP.ADD, value: 1 },
     unlock: { type: UNLOCK_TYPE.ALWAYS },
@@ -37,9 +37,9 @@ export const upgradeCatalog = [
   {
     id: 'mechanical_keyboard',
     name: 'Mechanical Keyboard',
-    description: 'Tactile clicks boost output.',
-    baseCost: 50,
-    costGrowth: 1,
+    description: "Don't let the RGB lights distract you.",
+    baseCost: 100,
+    costGrowth: 1.2,
     maxLevel: 1,
     effect: { stat: EFFECT_STAT.PER_CLICK, op: EFFECT_OP.ADD, value: 2 },
     unlock: {
@@ -55,7 +55,7 @@ export const upgradeCatalog = [
     id: 'custom_keyboard',
     name: 'Custom Keyboard',
     description: 'The keyboard sounds fill you with determination!',
-    baseCost: 100,
+    baseCost: 250,
     costGrowth: 1,
     maxLevel: 1,
     effect: { stat: EFFECT_STAT.PER_CLICK, op: EFFECT_OP.ADD, value: 4 },
@@ -71,8 +71,8 @@ export const upgradeCatalog = [
   {
     id: 'two_keyboards',
     name: 'Two Keyboards',
-    description: '????',
-    baseCost: 250,
+    description: 'You have two hands for a reason.',
+    baseCost: 400,
     costGrowth: 1,
     maxLevel: 1,
     effect: { stat: EFFECT_STAT.PER_CLICK, op: EFFECT_OP.ADD, value: 8 },
@@ -86,76 +86,10 @@ export const upgradeCatalog = [
     order: 4,
   },
 
-  // ===== Tabs chain - improves passive points =====
-  {
-    id: 'lofi_music_tab',
-    name: 'LoFi Music Unlocked',
-    description: 'Relaxing beats to listen to while coding.',
-    baseCost: 50,
-    costGrowth: 1,
-    maxLevel: 1,
-    effect: { stat: EFFECT_STAT.PASSIVE, op: EFFECT_OP.ADD, value: 1 },
-    unlock: { type: UNLOCK_TYPE.ALWAYS },
-    icon: TabIcon,
-    chain: 'tabs',
-    order: 1,
-  },
-  {
-    id: 'docs_tab',
-    name: 'Documentation Tab',
-    description: 'Documentation always helps.',
-    baseCost: 100,
-    costGrowth: 1,
-    maxLevel: 1,
-    effect: { stat: EFFECT_STAT.PASSIVE, op: EFFECT_OP.ADD, value: 2 },
-    unlock: {
-      type: UNLOCK_TYPE.UPGRADE_LEVEL,
-      upgradeId: 'lofi_music_tab',
-      level: 1,
-    },
-    icon: TabIcon,
-    chain: 'tabs',
-    order: 2,
-  },
-  {
-    id: 'reddit_tab',
-    name: 'Reddit Tab Unlocked',
-    description: 'Somehow still productive. Mostly.',
-    baseCost: 300,
-    costGrowth: 1,
-    maxLevel: 1,
-    effect: { stat: EFFECT_STAT.PASSIVE, op: EFFECT_OP.ADD, value: 3 },
-    unlock: {
-      type: UNLOCK_TYPE.UPGRADE_LEVEL,
-      upgradeId: 'docs_tab',
-      level: 1,
-    },
-    icon: TabIcon,
-    chain: 'tabs',
-    order: 3,
-  },
-  {
-    id: 'stack_overflow_tab',
-    name: 'Stack Overflow Tab Unlocked',
-    description: 'Unlimited questions and answers!',
-    baseCost: 500,
-    costGrowth: 1,
-    maxLevel: 1,
-    effect: { stat: EFFECT_STAT.PASSIVE, op: EFFECT_OP.ADD, value: 4 },
-    unlock: {
-      type: UNLOCK_TYPE.UPGRADE_LEVEL,
-      upgradeId: 'reddit_tab',
-      level: 1,
-    },
-    icon: TabIcon,
-    chain: 'tabs',
-    order: 4,
-  },
-
   // ===== Monitors chain - improves points per click =====
   {
     id: 'broken_laptop_screen',
-    name: 'Broken Laptop Screen',
+    name: 'Broken Monitor Screen',
     description: 'You make it work somehow.',
     baseCost: 30,
     costGrowth: 1,
@@ -170,7 +104,7 @@ export const upgradeCatalog = [
     id: 'monitor_60hz',
     name: '60Hz Monitor',
     description: 'Stable refresh, stable output.',
-    baseCost: 90,
+    baseCost: 120,
     costGrowth: 1,
     maxLevel: 1,
     effect: { stat: EFFECT_STAT.PER_CLICK, op: EFFECT_OP.ADD, value: 2 },
@@ -185,10 +119,10 @@ export const upgradeCatalog = [
   },
   {
     id: 'monitor_144hz',
-    name: '144Hz Monitor',
-    description: 'Smooth visuals, smooth coding.',
-    baseCost: 180,
-    costGrowth: 1,
+    name: '144Hz Curved  Monitor',
+    description: "Smooth visuals, smooth coding. Plus it's ergonomic!",
+    baseCost: 320,
+    costGrowth: 1.22,
     maxLevel: 1,
     effect: { stat: EFFECT_STAT.PER_CLICK, op: EFFECT_OP.ADD, value: 4 },
     unlock: {
@@ -204,7 +138,7 @@ export const upgradeCatalog = [
     id: 'dual_monitor',
     name: 'Dual Monitor',
     description: 'Code left, docs right. Productivity spike.',
-    baseCost: 400,
+    baseCost: 700,
     costGrowth: 1,
     maxLevel: 1,
     effect: { stat: EFFECT_STAT.PER_CLICK, op: EFFECT_OP.ADD, value: 8 },
@@ -218,12 +152,78 @@ export const upgradeCatalog = [
     order: 4,
   },
 
+  // ===== Tabs chain - improves passive points =====
+  {
+    id: 'lofi_music_tab',
+    name: 'LoFi Music Tab',
+    description: 'Relaxing beats to listen to while coding.',
+    baseCost: 55,
+    costGrowth: 1,
+    maxLevel: 1,
+    effect: { stat: EFFECT_STAT.PASSIVE, op: EFFECT_OP.ADD, value: 1 },
+    unlock: { type: UNLOCK_TYPE.ALWAYS },
+    icon: TabIcon,
+    chain: 'tabs',
+    order: 1,
+  },
+  {
+    id: 'docs_tab',
+    name: 'Documentation Tab',
+    description: 'Documentation always helps (when it makes sense).',
+    baseCost: 170,
+    costGrowth: 1,
+    maxLevel: 1,
+    effect: { stat: EFFECT_STAT.PASSIVE, op: EFFECT_OP.ADD, value: 2 },
+    unlock: {
+      type: UNLOCK_TYPE.UPGRADE_LEVEL,
+      upgradeId: 'lofi_music_tab',
+      level: 1,
+    },
+    icon: TabIcon,
+    chain: 'tabs',
+    order: 2,
+  },
+  {
+    id: 'reddit_tab',
+    name: 'Reddit Tab',
+    description: 'Somehow still productive. Mostly.',
+    baseCost: 350,
+    costGrowth: 1,
+    maxLevel: 1,
+    effect: { stat: EFFECT_STAT.PASSIVE, op: EFFECT_OP.ADD, value: 3 },
+    unlock: {
+      type: UNLOCK_TYPE.UPGRADE_LEVEL,
+      upgradeId: 'docs_tab',
+      level: 1,
+    },
+    icon: TabIcon,
+    chain: 'tabs',
+    order: 3,
+  },
+  {
+    id: 'stack_overflow_tab',
+    name: 'Stack Overflow Tab',
+    description: 'Unlimited questions and answers!',
+    baseCost: 800,
+    costGrowth: 1,
+    maxLevel: 1,
+    effect: { stat: EFFECT_STAT.PASSIVE, op: EFFECT_OP.ADD, value: 4 },
+    unlock: {
+      type: UNLOCK_TYPE.UPGRADE_LEVEL,
+      upgradeId: 'reddit_tab',
+      level: 1,
+    },
+    icon: TabIcon,
+    chain: 'tabs',
+    order: 4,
+  },
+
   // ===== Tools chain - improves passive points =====
   {
     id: 'auto_formatter',
     name: 'Auto Formatter',
-    description: 'Prettier and friends keep you moving.',
-    baseCost: 200,
+    description: 'Keeps your code looking nice!',
+    baseCost: 220,
     costGrowth: 1,
     maxLevel: 1,
     effect: { stat: EFFECT_STAT.PASSIVE, op: EFFECT_OP.ADD, value: 5 },
@@ -235,8 +235,8 @@ export const upgradeCatalog = [
   {
     id: 'build_script',
     name: 'Build Script',
-    description: 'One command to build them all.',
-    baseCost: 400,
+    description: "This isn't scripted, right?",
+    baseCost: 650,
     costGrowth: 1,
     maxLevel: 1,
     effect: { stat: EFFECT_STAT.PASSIVE, op: EFFECT_OP.ADD, value: 10 },
@@ -252,8 +252,8 @@ export const upgradeCatalog = [
   {
     id: 'ai_code_assistant',
     name: 'AI Code Assistant',
-    description: 'Writes the boring parts while you sip coffee.',
-    baseCost: 600,
+    description: 'Writes the boring parts while you code the fun parts.',
+    baseCost: 1000,
     costGrowth: 1,
     maxLevel: 1,
     effect: { stat: EFFECT_STAT.PASSIVE, op: EFFECT_OP.ADD, value: 20 },
